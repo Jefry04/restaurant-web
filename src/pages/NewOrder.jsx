@@ -1,12 +1,25 @@
+import { useFormik } from 'formik';
 import React from 'react';
 
 const NewOrder = () => {
+  const formik = useFormik({
+    initialValues: {
+      nombre: '',
+      precio: '',
+      categoria: '',
+      imagen: '',
+      descripcion: '',
+    },
+    onSubmit: (datos) => {
+      console.log(datos);
+    },
+  });
   return (
     <>
       <h1 className="text-3xl font-light mb-4">Agregar orden</h1>
       <div className="flex justify-center mt-10">
         <div className="w-full max-w-3xl">
-          <form>
+          <form onSubmit={formik.handleSubmit}>
             <div className="mb-4">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
@@ -18,6 +31,8 @@ const NewOrder = () => {
                 id="nombre"
                 placeholder="Nombre del plato"
                 type="text"
+                value={formik.values.nombre}
+                onChange={formik.handleChange}
                 className="mb-5 shadow apparance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
               <label
@@ -31,6 +46,8 @@ const NewOrder = () => {
                 placeholder="precio del plato"
                 type="number"
                 min="0"
+                value={formik.values.precio}
+                onChange={formik.handleChange}
                 className="mb-5 shadow apparance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
 
@@ -44,6 +61,8 @@ const NewOrder = () => {
                 className="mb-5 shadow apparance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="categoria"
                 name="categoria"
+                value={formik.values.categoria}
+                onChange={formik.handleChange}
               >
                 <option value="">Seleccione</option>
                 <option value="desayuno">desayuno</option>
@@ -62,6 +81,8 @@ const NewOrder = () => {
               <input
                 id="imagen"
                 type="file"
+                value={formik.values.imagen}
+                onChange={formik.handleChange}
                 className="mb-5 shadow apparance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
               <label
@@ -74,10 +95,13 @@ const NewOrder = () => {
                 id="descripcion"
                 placeholder="Descripcion del plato"
                 type="text"
+                value={formik.values.descripcion}
+                onChange={formik.handleChange}
                 className="h-40 mb-5 shadow apparance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
               <input
                 type="submit"
+                id="descripcion"
                 value="Agregar plato"
                 className="bg-gray-800 hover:bg-gray-900 w-full mt-5 p-2 text-white uppercase font-bold"
               />
