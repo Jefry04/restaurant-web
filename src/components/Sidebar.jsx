@@ -34,7 +34,7 @@ const Sidebar = ({ children }) => {
           </nav>
         </div>
       </div>
-      <div className="md:w-3/5 xl:w-4/5">{children}</div>
+      <div className="md:w-3/5 xl:w-4/5 p-6">{children}</div>
     </div>
   );
 };
