@@ -1,13 +1,18 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { FirebaseContext } from '../firebase';
 import { useNavigate } from 'react-router-dom';
+import FileUploader from 'react-firebase-file-uploader';
 
 const NewOrder = () => {
+  const [uploadImage, setUploadImage] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [imageUrl, setImageUrl] = useState('');
+
   const { firebase } = useContext(FirebaseContext);
   const navigate = useNavigate();
-  console.log(firebase);
+
   const formik = useFormik({
     initialValues: {
       nombre: '',
@@ -29,6 +34,7 @@ const NewOrder = () => {
     onSubmit: (datos) => {
       try {
         datos.existencia = true;
+        datos.image = imageUrl;
         firebase.db.collection('productos').add(datos);
         navigate('/menu');
       } catch (error) {
@@ -36,6 +42,33 @@ const NewOrder = () => {
       }
     },
   });
+
+  const handleUploadStart = () => {
+    setProgress(0);
+    setUploadImage(true);
+  };
+
+  const handleUploadError = (error) => {
+    setUploadImage(false);
+    console.log(error);
+  };
+
+  const handleUploadSuccess = async (name) => {
+    setProgress(100);
+    setUploadImage(false);
+
+    const url = await firebase.storage
+      .ref('productos')
+      .child(name)
+      .getDownloadURL();
+    setImageUrl(url);
+  };
+
+  const handleProgress = (progress) => {
+    setProgress(progress);
+    console.log(progress);
+  };
+
   return (
     <>
       <h1 className="text-3xl font-light mb-4">Agregar orden</h1>
@@ -126,13 +159,32 @@ const NewOrder = () => {
               >
                 Imagen
               </label>
-              <input
+              <FileUploader
+                accept="image/*"
                 id="imagen"
-                type="file"
-                value={formik.values.imagen}
-                onChange={formik.handleChange}
-                className="mb-2 shadow apparance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                name="imagen"
+                randomizeFilename
+                storageRef={firebase.storage.ref('productos')}
+                onUploadStart={handleUploadStart}
+                onUploadError={handleUploadError}
+                onUploadSuccess={handleUploadSuccess}
+                onProgress={handleProgress}
               />
+              {uploadImage && (
+                <div className="h-12 relative w-full border">
+                  <div
+                    className="bg-green-500 absolute left-0 top-0 text-white px-2 text-sm h-12 items-center"
+                    style={{ width: `${progress}%` }}
+                  >
+                    {progress}
+                  </div>
+                </div>
+              )}
+              {imageUrl && (
+                <p className="bg-green-500 text-white p-3 text-center my-5">
+                  Se subio imagen correctamente
+                </p>
+              )}
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="descripcion"
