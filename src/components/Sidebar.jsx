@@ -9,7 +9,7 @@ const Sidebar = ({ children }) => {
           <p className="text-white tracking-wide text-center font-bold">
             CARIBBEAN RESTAURANT
           </p>
-          <p className="mt-3 text-gray-600">Adminsitra tu restaurant</p>
+          <p className="mt-3 text-gray-600">Adminsitra tu restaurante</p>
           <nav className="mt-5">
             <NavLink
               className={({ isActive }) =>

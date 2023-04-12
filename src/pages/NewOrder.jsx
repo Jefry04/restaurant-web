@@ -1,5 +1,5 @@
 import { useFormik } from 'formik';
-import React from 'react';
+import * as Yup from 'yup';
 
 const NewOrder = () => {
   const formik = useFormik({
@@ -10,6 +10,16 @@ const NewOrder = () => {
       imagen: '',
       descripcion: '',
     },
+    validationSchema: Yup.object({
+      nombre: Yup.string().required('El nombre es obligatorio'),
+      precio: Yup.number()
+        .required('El Precio es obligatorio')
+        .min(1, 'Debes agregar un valor'),
+      categoria: Yup.string().required('La categoria es obligatoria'),
+      descripcion: Yup.string()
+        .required('La descripcion es obligatoria')
+        .min(10, 'la descripcion debe ser mas larga'),
+    }),
     onSubmit: (datos) => {
       console.log(datos);
     },
@@ -33,8 +43,17 @@ const NewOrder = () => {
                 type="text"
                 value={formik.values.nombre}
                 onChange={formik.handleChange}
-                className="mb-5 shadow apparance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                onBlur={formik.handleBlur}
+                className="mb-2 shadow apparance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
+              {formik.touched.nombre && formik.errors.nombre && (
+                <div
+                  className="bg-red-100 border-l-4 border-red-500 text-red-700 p-2 mt-2 mb-2"
+                  role="alert"
+                >
+                  <p>{formik.errors.nombre}</p>
+                </div>
+              )}
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="precio"
@@ -48,9 +67,17 @@ const NewOrder = () => {
                 min="0"
                 value={formik.values.precio}
                 onChange={formik.handleChange}
-                className="mb-5 shadow apparance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                onBlur={formik.handleBlur}
+                className="mb-2 shadow apparance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
-
+              {formik.touched.precio && formik.errors.precio && (
+                <div
+                  className="bg-red-100 border-l-4 border-red-500 text-red-700 p-2 mt-2 mb-2"
+                  role="alert"
+                >
+                  <p>{formik.errors.precio}</p>
+                </div>
+              )}
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="Categoria"
@@ -58,11 +85,12 @@ const NewOrder = () => {
                 Categoria
               </label>
               <select
-                className="mb-5 shadow apparance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="mb-2 shadow apparance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="categoria"
                 name="categoria"
                 value={formik.values.categoria}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               >
                 <option value="">Seleccione</option>
                 <option value="desayuno">desayuno</option>
@@ -72,6 +100,14 @@ const NewOrder = () => {
                 <option value="postre">Postre</option>
                 <option value="ensalada">Ensalada</option>
               </select>
+              {formik.touched.categoria && formik.errors.categoria && (
+                <div
+                  className="bg-red-100 border-l-4 border-red-500 text-red-700 p-2 mt-2 mb-2"
+                  role="alert"
+                >
+                  <p>{formik.errors.categoria}</p>
+                </div>
+              )}
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="imagen"
@@ -83,7 +119,7 @@ const NewOrder = () => {
                 type="file"
                 value={formik.values.imagen}
                 onChange={formik.handleChange}
-                className="mb-5 shadow apparance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="mb-2 shadow apparance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
@@ -97,8 +133,17 @@ const NewOrder = () => {
                 type="text"
                 value={formik.values.descripcion}
                 onChange={formik.handleChange}
-                className="h-40 mb-5 shadow apparance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                onBlur={formik.handleBlur}
+                className="h-40 mb-2 shadow apparance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
+              {formik.touched.descripcion && formik.errors.descripcion && (
+                <div
+                  className="bg-red-100 border-l-4 border-red-500 text-red-700 p-2 mt-2 mb-2"
+                  role="alert"
+                >
+                  <p>{formik.errors.descripcion}</p>
+                </div>
+              )}
               <input
                 type="submit"
                 id="descripcion"
