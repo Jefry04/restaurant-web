@@ -1,7 +1,13 @@
+import { useContext } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { FirebaseContext } from '../firebase';
+import { useNavigate } from 'react-router-dom';
 
 const NewOrder = () => {
+  const { firebase } = useContext(FirebaseContext);
+  const navigate = useNavigate();
+  console.log(firebase);
   const formik = useFormik({
     initialValues: {
       nombre: '',
@@ -21,7 +27,13 @@ const NewOrder = () => {
         .min(10, 'la descripcion debe ser mas larga'),
     }),
     onSubmit: (datos) => {
-      console.log(datos);
+      try {
+        datos.existencia = true;
+        firebase.db.collection('productos').add(datos);
+        navigate('/menu');
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
   return (
