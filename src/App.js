@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router';
 import Orders from './pages/Orders';
 import Menu from './pages/Menu';
-import NewOrder from './pages/NewOrder';
+import NewDishes from './pages/NewDishes';
 import Sidebar from './components/Sidebar';
 import firebase, { FirebaseContext } from './firebase';
 
@@ -12,7 +12,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Orders />} />
           <Route path="/menu" element={<Menu />} />
-          <Route path="/new-order" element={<NewOrder />} />
+          <Route path="/new-dish" element={<NewDishes />} />
         </Routes>
       </Sidebar>
     </FirebaseContext.Provider>

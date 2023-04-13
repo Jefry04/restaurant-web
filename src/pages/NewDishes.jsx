@@ -5,7 +5,7 @@ import { FirebaseContext } from '../firebase';
 import { useNavigate } from 'react-router-dom';
 import FileUploader from 'react-firebase-file-uploader';
 
-const NewOrder = () => {
+const NewDishes = () => {
   const [uploadImage, setUploadImage] = useState(false);
   const [progress, setProgress] = useState(0);
   const [imageUrl, setImageUrl] = useState('');
@@ -15,19 +15,19 @@ const NewOrder = () => {
 
   const formik = useFormik({
     initialValues: {
-      nombre: '',
-      precio: '',
-      categoria: '',
-      imagen: '',
-      descripcion: '',
+      name: '',
+      price: '',
+      category: '',
+      image: '',
+      description: '',
     },
     validationSchema: Yup.object({
-      nombre: Yup.string().required('El nombre es obligatorio'),
-      precio: Yup.number()
+      name: Yup.string().required('El nombre es obligatorio'),
+      price: Yup.number()
         .required('El Precio es obligatorio')
         .min(1, 'Debes agregar un valor'),
-      categoria: Yup.string().required('La categoria es obligatoria'),
-      descripcion: Yup.string()
+      category: Yup.string().required('La categoria es obligatoria'),
+      description: Yup.string()
         .required('La descripcion es obligatoria')
         .min(10, 'la descripcion debe ser mas larga'),
     }),
@@ -66,7 +66,6 @@ const NewOrder = () => {
 
   const handleProgress = (progress) => {
     setProgress(progress);
-    console.log(progress);
   };
 
   return (
@@ -78,62 +77,62 @@ const NewOrder = () => {
             <div className="mb-4">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="nombre"
+                htmlFor="name"
               >
                 Nombre
               </label>
               <input
-                id="nombre"
+                id="name"
                 placeholder="Nombre del plato"
                 type="text"
-                value={formik.values.nombre}
+                value={formik.values.name}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 className="mb-2 shadow apparance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
-              {formik.touched.nombre && formik.errors.nombre && (
+              {formik.touched.name && formik.errors.name && (
                 <div
                   className="bg-red-100 border-l-4 border-red-500 text-red-700 p-2 mt-2 mb-2"
                   role="alert"
                 >
-                  <p>{formik.errors.nombre}</p>
+                  <p>{formik.errors.name}</p>
                 </div>
               )}
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="precio"
+                htmlFor="price"
               >
-                precio
+                Precio
               </label>
               <input
-                id="precio"
+                id="price"
                 placeholder="precio del plato"
                 type="number"
                 min="0"
-                value={formik.values.precio}
+                value={formik.values.price}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 className="mb-2 shadow apparance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
-              {formik.touched.precio && formik.errors.precio && (
+              {formik.touched.price && formik.errors.price && (
                 <div
                   className="bg-red-100 border-l-4 border-red-500 text-red-700 p-2 mt-2 mb-2"
                   role="alert"
                 >
-                  <p>{formik.errors.precio}</p>
+                  <p>{formik.errors.price}</p>
                 </div>
               )}
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="Categoria"
+                htmlFor="category"
               >
                 Categoria
               </label>
               <select
                 className="mb-2 shadow apparance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="categoria"
-                name="categoria"
-                value={formik.values.categoria}
+                id="category"
+                name="category"
+                value={formik.values.category}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               >
@@ -145,24 +144,24 @@ const NewOrder = () => {
                 <option value="postre">Postre</option>
                 <option value="ensalada">Ensalada</option>
               </select>
-              {formik.touched.categoria && formik.errors.categoria && (
+              {formik.touched.category && formik.errors.category && (
                 <div
                   className="bg-red-100 border-l-4 border-red-500 text-red-700 p-2 mt-2 mb-2"
                   role="alert"
                 >
-                  <p>{formik.errors.categoria}</p>
+                  <p>{formik.errors.category}</p>
                 </div>
               )}
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="imagen"
+                htmlFor="image"
               >
                 Imagen
               </label>
               <FileUploader
                 accept="image/*"
-                id="imagen"
-                name="imagen"
+                id="image"
+                name="image"
                 randomizeFilename
                 storageRef={firebase.storage.ref('productos')}
                 onUploadStart={handleUploadStart}
@@ -187,30 +186,30 @@ const NewOrder = () => {
               )}
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="descripcion"
+                htmlFor="description"
               >
                 Descripcion
               </label>
               <textarea
-                id="descripcion"
+                id="description"
                 placeholder="Descripcion del plato"
                 type="text"
-                value={formik.values.descripcion}
+                value={formik.values.description}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 className="h-40 mb-2 shadow apparance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
-              {formik.touched.descripcion && formik.errors.descripcion && (
+              {formik.touched.description && formik.errors.description && (
                 <div
                   className="bg-red-100 border-l-4 border-red-500 text-red-700 p-2 mt-2 mb-2"
                   role="alert"
                 >
-                  <p>{formik.errors.descripcion}</p>
+                  <p>{formik.errors.description}</p>
                 </div>
               )}
               <input
                 type="submit"
-                id="descripcion"
+                id="description"
                 value="Agregar plato"
                 className="bg-gray-800 hover:bg-gray-900 w-full mt-5 p-2 text-white uppercase font-bold"
               />
@@ -222,4 +221,4 @@ const NewOrder = () => {
   );
 };
 
-export default NewOrder;
+export default NewDishes;
